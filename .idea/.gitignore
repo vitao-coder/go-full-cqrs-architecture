@@ -6,3 +6,8 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+/.name
+/go-full-cqrs-architecture.iml
+/modules.xml
+/vcs.xml
+/watcherTasks.xml

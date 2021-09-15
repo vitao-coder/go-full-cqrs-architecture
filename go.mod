@@ -4,10 +4,13 @@ go 1.17
 
 require (
 	github.com/apache/pulsar-client-go v0.6.0
+	github.com/go-chi/chi/v5 v5.0.4
+	github.com/prometheus/client_golang v1.11.0
 	go.mongodb.org/mongo-driver v1.7.1
 	go.uber.org/fx v1.14.2
 	go.uber.org/zap v1.16.0
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
+	gopkg.in/yaml.v2 v2.3.0
 )
 
 require (
@@ -21,7 +24,6 @@ require (
 	github.com/danieljoos/wincred v1.0.2 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/dvsekhvalnov/jose2go v0.0.0-20180829124132-7f401d37b68a // indirect
-	github.com/go-chi/chi/v5 v5.0.4 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/godbus/dbus v0.0.0-20190726142602-4481cbc300e2 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
@@ -37,7 +39,6 @@ require (
 	github.com/mtibben/percent v0.2.1 // indirect
 	github.com/pierrec/lz4 v2.0.5+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/prometheus/client_golang v1.11.0 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.26.0 // indirect
 	github.com/prometheus/procfs v0.6.0 // indirect

@@ -1,0 +1,14 @@
+# Server configurations
+server:
+  enviroment: "development"
+  host: "localhost"
+  port: 8000
+
+# Database credentials
+database:
+  connectionString: "connMongo"
+  database: "full-arch"
+
+# Messaging service
+messaging:
+  url: "url"

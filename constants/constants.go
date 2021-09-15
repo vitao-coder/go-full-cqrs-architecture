@@ -1,6 +1,6 @@
 package constants
 
 const (
-	ProductionEnviroment  = "Production"
-	DevelopmentEnviroment = "Development"
+	ProductionEnviroment  = "production"
+	DevelopmentEnviroment = "development"
 )

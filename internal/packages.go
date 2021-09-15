@@ -1,15 +1,15 @@
 package server
 
 import (
-	"go-full-cqrs-architecture/configuration"
-	"go-full-cqrs-architecture/packages/database"
-	"go-full-cqrs-architecture/packages/database/mongodb"
-	"go-full-cqrs-architecture/packages/logging"
-	"go-full-cqrs-architecture/packages/logging/zap"
-	"go-full-cqrs-architecture/packages/messaging"
-	"go-full-cqrs-architecture/packages/messaging/pulsar"
-	"go-full-cqrs-architecture/packages/metrics"
-	"go-full-cqrs-architecture/packages/metrics/prometheus"
+	"github.com/vitao-coder/go-full-cqrs-architecture/configuration"
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/database"
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/database/mongodb"
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/logging"
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/logging/zap"
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/messaging"
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/messaging/pulsar"
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/metrics"
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/metrics/prometheus"
 
 	"go.uber.org/fx"
 )

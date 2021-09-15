@@ -1,4 +1,4 @@
-module go-full-cqrs-architecture
+module github.com/vitao-coder/go-full-cqrs-architecture
 
 go 1.17
 

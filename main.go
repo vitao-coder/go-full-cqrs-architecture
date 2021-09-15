@@ -1,6 +1,6 @@
 package main
 
-import server "go-full-cqrs-architecture/internal"
+import server "github.com/vitao-coder/go-full-cqrs-architecture/internal"
 
 func main() {
 	server.Serve()

@@ -3,8 +3,9 @@ package mongodb
 import (
 	"context"
 	"errors"
-	"go-full-cqrs-architecture/packages/database"
 	"sync"
+
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/database"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

@@ -4,8 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"go-full-cqrs-architecture/packages/messaging"
 	"time"
+
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/messaging"
 
 	"github.com/apache/pulsar-client-go/pulsar"
 )

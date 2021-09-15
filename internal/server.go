@@ -2,11 +2,12 @@ package server
 
 import (
 	"context"
-	"go-full-cqrs-architecture/configuration"
-	"go-full-cqrs-architecture/packages/logging"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/vitao-coder/go-full-cqrs-architecture/configuration"
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/logging"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"

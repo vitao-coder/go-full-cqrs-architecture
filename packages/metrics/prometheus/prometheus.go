@@ -1,7 +1,7 @@
 package prometheus
 
 import (
-	"go-full-cqrs-architecture/packages/metrics/model"
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/metrics/model"
 
 	"github.com/prometheus/client_golang/prometheus"
 )

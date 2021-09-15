@@ -1,8 +1,8 @@
 package zap
 
 import (
-	"go-full-cqrs-architecture/constants"
-	"go-full-cqrs-architecture/packages/logging"
+	"github.com/vitao-coder/go-full-cqrs-architecture/constants"
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/logging"
 
 	"go.uber.org/zap"
 )

@@ -36,6 +36,11 @@ type HTTPEndpoint interface {
 	HttpPath() string
 }
 
+var ServerModule = fx.Provide(
+	NewConfiguration,
+	NewServer,
+)
+
 func NewConfiguration() configuration.Configuration {
 	absPath, _ := filepath.Abs("../go-full-cqrs-architecture/configuration/config.yaml")
 	f, err := os.Open(absPath)
@@ -64,7 +69,6 @@ func NewServer(logger logging.Logger, input ServerInput, metrics metrics.Metrics
 	r.Use(MetricsMiddleware(metrics))
 	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("pong"))
-		w.WriteHeader(http.StatusOK)
 	})
 
 	r.Handle("/metrics", promhttp.Handler())
@@ -94,15 +98,9 @@ func StartServer(lc fx.Lifecycle, logger logging.Logger, server *chi.Mux, config
 }
 
 func Serve() {
-	ServerModule := fx.Provide(
-		NewConfiguration,
-		NewServer,
-	)
-
 	app := fx.New(fx.Options(
 		ServerModule,
 		PackagesModule,
 	), fx.Invoke(StartServer))
-
 	app.Run()
 }

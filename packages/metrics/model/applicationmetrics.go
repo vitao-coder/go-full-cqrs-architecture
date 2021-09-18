@@ -5,24 +5,17 @@ import "time"
 type AplicationMetrics struct {
 	Handler    string
 	Method     string
-	StatusCode string
+	StatusCode int
 	StartedAt  time.Time
-	FinishedAt time.Time
-	Duration   float64
+	Duration   time.Duration
 }
 
-func NewAplicationMetrics(handler string, method string) *AplicationMetrics {
+func NewAplicationMetrics(handler string, method string, statusCode int, startedAt time.Time, duration time.Duration) *AplicationMetrics {
 	return &AplicationMetrics{
-		Handler: handler,
-		Method:  method,
+		Handler:    handler,
+		Method:     method,
+		StatusCode: statusCode,
+		StartedAt:  startedAt,
+		Duration:   duration,
 	}
-}
-
-func (a *AplicationMetrics) Started() {
-	a.StartedAt = time.Now()
-}
-
-func (a *AplicationMetrics) Finished() {
-	a.FinishedAt = time.Now()
-	a.Duration = time.Since(a.StartedAt).Seconds()
 }

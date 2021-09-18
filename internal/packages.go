@@ -18,7 +18,7 @@ var PackagesModule = fx.Provide(
 	//NewDatabase,
 	//NewMessaging,
 	NewLogger,
-	//NewMetrics,
+	NewMetrics,
 )
 
 func NewDatabase(config configuration.Configuration) (database.Database, error) {
@@ -33,6 +33,6 @@ func NewLogger(config configuration.Configuration) (logging.Logger, error) {
 	return zap.NewZapLogger(config.Server.Enviroment)
 }
 
-func NewMetrics() (metrics.Metrics, error) {
-	return prometheus.NewPrometheusService()
+func NewMetrics(logger logging.Logger) (metrics.Metrics, error) {
+	return prometheus.NewPrometheusService(logger)
 }

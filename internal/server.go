@@ -4,7 +4,12 @@ import (
 	"context"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/metrics"
 
 	"github.com/vitao-coder/go-full-cqrs-architecture/configuration"
 	"github.com/vitao-coder/go-full-cqrs-architecture/packages/logging"
@@ -32,7 +37,8 @@ type HTTPEndpoint interface {
 }
 
 func NewConfiguration() configuration.Configuration {
-	f, err := os.Open("configuration/config.yml")
+	absPath, _ := filepath.Abs("../go-full-cqrs-architecture/configuration/config.yaml")
+	f, err := os.Open(absPath)
 	if err != nil {
 		panic(err)
 	}
@@ -47,19 +53,21 @@ func NewConfiguration() configuration.Configuration {
 	return cfg
 }
 
-func NewServer(logger logging.Logger, input ServerInput) *chi.Mux {
+func NewServer(logger logging.Logger, input ServerInput, metrics metrics.Metrics) *chi.Mux {
 	logger.Info("Starting registering server...")
 	r := chi.NewRouter()
 
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
-	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Timeout(timeout * time.Second))
-
+	r.Use(MetricsMiddleware(metrics))
 	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("pong"))
+		w.WriteHeader(http.StatusOK)
 	})
+
+	r.Handle("/metrics", promhttp.Handler())
 
 	logger.Info("Registering endpoints...")
 	r.Route("/go-full-app", func(r chi.Router) {
@@ -94,8 +102,7 @@ func Serve() {
 	app := fx.New(fx.Options(
 		ServerModule,
 		PackagesModule,
-	),
-		fx.Invoke(StartServer))
+	), fx.Invoke(StartServer))
 
 	app.Run()
 }

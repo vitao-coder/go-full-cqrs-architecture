@@ -1,6 +1,10 @@
 package prometheus
 
 import (
+	"fmt"
+	"strconv"
+
+	"github.com/vitao-coder/go-full-cqrs-architecture/packages/logging"
 	"github.com/vitao-coder/go-full-cqrs-architecture/packages/metrics/model"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -8,9 +12,10 @@ import (
 
 type PrometheusService struct {
 	httpRequestHistogram *prometheus.HistogramVec
+	logger               logging.Logger
 }
 
-func NewPrometheusService() (*PrometheusService, error) {
+func NewPrometheusService(logger logging.Logger) (*PrometheusService, error) {
 	http := prometheus.NewHistogramVec(prometheus.HistogramOpts{
 		Namespace: "http",
 		Name:      "request_duration_seconds",
@@ -20,6 +25,7 @@ func NewPrometheusService() (*PrometheusService, error) {
 
 	s := &PrometheusService{
 		httpRequestHistogram: http,
+		logger:               logger,
 	}
 	err := prometheus.Register(s.httpRequestHistogram)
 	if err != nil && err.Error() != "duplicate metrics collector registration attempted" {
@@ -28,6 +34,8 @@ func NewPrometheusService() (*PrometheusService, error) {
 	return s, nil
 }
 
-func (s *PrometheusService) SaveHTTP(appMetrics *model.AplicationMetrics) {
-	s.httpRequestHistogram.WithLabelValues(appMetrics.Handler, appMetrics.Method, appMetrics.StatusCode).Observe(appMetrics.Duration)
+func (s *PrometheusService) SaveHTTP(appMetrics model.AplicationMetrics) {
+	statusStrCode := strconv.Itoa(appMetrics.StatusCode)
+	s.httpRequestHistogram.WithLabelValues(appMetrics.Handler, appMetrics.Method, statusStrCode).Observe(appMetrics.Duration.Seconds())
+	s.logger.Debug(fmt.Sprintf("Metrics - Handler: %s - Method: %s - StatusCode: %s - Took %s", appMetrics.Handler, appMetrics.Method, statusStrCode, appMetrics.Duration))
 }

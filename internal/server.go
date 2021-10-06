@@ -26,8 +26,9 @@ const (
 )
 
 type ServerInput struct {
-	fx.In
 	Endpoints []HTTPEndpoint `group:"endpoints"`
+
+	fx.In
 }
 
 type HTTPEndpoint interface {

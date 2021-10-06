@@ -11,6 +11,8 @@ import (
 	"github.com/apache/pulsar-client-go/pulsar"
 )
 
+const defaultTimeout = 30 * time.Second
+
 type pulsarClient struct {
 	client    pulsar.Client
 	producers []pulsar.Producer
@@ -20,8 +22,8 @@ type pulsarClient struct {
 func NewPulsarClient(pulsarURL string) (messaging.Messaging, error) {
 	client, err := pulsar.NewClient(pulsar.ClientOptions{
 		URL:               pulsarURL,
-		OperationTimeout:  30 * time.Second,
-		ConnectionTimeout: 30 * time.Second,
+		OperationTimeout:  defaultTimeout,
+		ConnectionTimeout: defaultTimeout,
 	})
 	defer client.Close()
 	if err != nil {
@@ -33,20 +35,19 @@ func NewPulsarClient(pulsarURL string) (messaging.Messaging, error) {
 	}, nil
 }
 
-func (pc pulsarClient) AddProducer(topicName string) error {
+func (pc pulsarClient) CreateProducer(topicName string) error {
 	producer, err := pc.client.CreateProducer(pulsar.ProducerOptions{
 		Topic: topicName,
 	})
 
-	pc.producers = append(pc.producers, producer)
-
 	if err != nil {
 		return err
 	}
+	pc.producers = append(pc.producers, producer)
 	return nil
 }
 
-func (pc pulsarClient) SendToTopic(topicName string, msg interface{}) error {
+func (pc pulsarClient) Publish(topicName string, msg interface{}) error {
 	for _, producer := range pc.producers {
 		if producer.Topic() == topicName {
 			marshalMsg, err := json.Marshal(msg)
@@ -60,6 +61,15 @@ func (pc pulsarClient) SendToTopic(topicName string, msg interface{}) error {
 				},
 			)
 			return nil
+		}
+	}
+	return errors.New("not found producer for this topic name")
+}
+
+func (pc pulsarClient) Close(topicName string) error {
+	for _, producer := range pc.producers {
+		if producer.Topic() == topicName {
+			producer.Close()
 		}
 	}
 	return errors.New("not found producer for this topic name")

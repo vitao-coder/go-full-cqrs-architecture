@@ -15,14 +15,14 @@ import (
 )
 
 var PackagesModule = fx.Provide(
-	//NewDatabase,
-	//NewMessaging,
+	NewDatabase,
+	NewMessaging,
 	NewLogger,
 	NewMetrics,
 )
 
 func NewDatabase(config configuration.Configuration) (database.Database, error) {
-	return mongodb.NewMongoDatabase(config.Database.ConnectionString, config.Database.ConnectionString)
+	return mongodb.NewMongoDatabase(config.Database.ConnectionString, config.Database.Database)
 }
 
 func NewMessaging(config configuration.Configuration) (messaging.Messaging, error) {

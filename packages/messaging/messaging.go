@@ -1,6 +1,7 @@
 package messaging
 
 type Messaging interface {
-	AddProducer(topicName string) error
-	SendToTopic(topicName string, msg interface{}) error
+	CreateProducer(topicName string) error
+	Publish(topicName string, msg interface{}) error
+	Close(topicName string) error
 }

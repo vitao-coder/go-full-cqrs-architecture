@@ -6,9 +6,9 @@ server:
 
 # Database credentials
 database:
-  connectionString: "connMongo"
+  connectionString: "mongodb://root:example@mongo:27017/"
   database: "full-arch"
 
 # Messaging service
 messaging:
-  url: "url"
+  url: "pulsar://localhost:6650"

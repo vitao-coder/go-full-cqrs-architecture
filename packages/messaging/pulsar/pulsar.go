@@ -6,8 +6,6 @@ import (
 	"errors"
 	"time"
 
-	"github.com/vitao-coder/go-full-cqrs-architecture/packages/messaging"
-
 	"github.com/apache/pulsar-client-go/pulsar"
 )
 
@@ -19,7 +17,7 @@ type pulsarClient struct {
 	url       string
 }
 
-func NewPulsarClient(pulsarURL string) (messaging.Messaging, error) {
+func NewPulsarClient(pulsarURL string) (*pulsarClient, error) {
 	client, err := pulsar.NewClient(pulsar.ClientOptions{
 		URL:               pulsarURL,
 		OperationTimeout:  defaultTimeout,
@@ -66,11 +64,19 @@ func (pc pulsarClient) Publish(topicName string, msg interface{}) error {
 	return errors.New("not found producer for this topic name")
 }
 
-func (pc pulsarClient) Close(topicName string) error {
+func (pc pulsarClient) ClosePublisher(topicName string) error {
 	for _, producer := range pc.producers {
 		if producer.Topic() == topicName {
 			producer.Close()
 		}
 	}
 	return errors.New("not found producer for this topic name")
+}
+
+func (pc pulsarClient) Subscribe(ctx context.Context, topicName string) (<-chan *interface{}, error) {
+	return nil, nil
+}
+
+func (pc pulsarClient) CloseSubscriber(topicName string) error {
+	return nil
 }

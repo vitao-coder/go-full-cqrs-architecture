@@ -1,47 +1,44 @@
-package command
+package event
 
 import (
 	"context"
 	"errors"
 
 	"github.com/vitao-coder/go-full-cqrs-architecture/components/cqrs"
-
 	"github.com/vitao-coder/go-full-cqrs-architecture/packages/messaging"
 )
 
-type CommandBus struct {
+type EventBus struct {
 	publisher messaging.Publisher
 	marshaler cqrs.CommandEventMarshaller
 }
 
-func NewCommandBus(
+func NewEventBus(
 	publisher messaging.Publisher,
 	marshaler cqrs.CommandEventMarshaller,
-) (*CommandBus, error) {
+) (*EventBus, error) {
 	if publisher == nil {
 		return nil, errors.New("missing publisher")
 	}
-
 	if marshaler == nil {
 		return nil, errors.New("missing marshaller")
 	}
 
-	return &CommandBus{publisher, marshaler}, nil
+	return &EventBus{publisher, marshaler}, nil
 }
 
-func (c CommandBus) Send(ctx context.Context, cmd interface{}) error {
-	msg, err := c.marshaler.Marshal(cmd)
+func (c EventBus) Publish(ctx context.Context, event interface{}) error {
+	msg, err := c.marshaler.Marshal(event)
 	if err != nil {
 		return err
 	}
 
-	commandName := c.marshaler.Name(cmd)
-
-	err = c.publisher.CreateProducer(commandName)
+	eventName := c.marshaler.Name(event)
+	err = c.publisher.CreateProducer(eventName)
 	if err != nil {
 		return err
 	}
-	topicName := commandName
+	topicName := eventName
 
 	msg.SetContext(ctx)
 

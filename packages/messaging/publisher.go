@@ -1,7 +1,7 @@
 package messaging
 
-type Messaging interface {
+type Publisher interface {
 	CreateProducer(topicName string) error
 	Publish(topicName string, msg interface{}) error
-	Close(topicName string) error
+	ClosePublisher(topicName string) error
 }

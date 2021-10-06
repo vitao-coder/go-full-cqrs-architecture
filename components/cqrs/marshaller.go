@@ -1,8 +1,10 @@
-package command
+package cqrs
 
-import "github.com/vitao-coder/go-full-cqrs-architecture/components/message"
+import (
+	"github.com/vitao-coder/go-full-cqrs-architecture/components/cqrs/message"
+)
 
-type CommandMarshaler interface {
+type CommandEventMarshaller interface {
 	Marshal(v interface{}) (*message.Message, error)
 	Unmarshal(msg *message.Message, v interface{}) (err error)
 	Name(v interface{}) string

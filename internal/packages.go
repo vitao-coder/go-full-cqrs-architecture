@@ -16,7 +16,8 @@ import (
 
 var PackagesModule = fx.Provide(
 	NewDatabase,
-	NewMessaging,
+	NewPublisher,
+	NewSubscriber,
 	NewLogger,
 	NewMetrics,
 )
@@ -25,7 +26,11 @@ func NewDatabase(config configuration.Configuration) (database.Database, error) 
 	return mongodb.NewMongoDatabase(config.Database.ConnectionString, config.Database.Database)
 }
 
-func NewMessaging(config configuration.Configuration) (messaging.Messaging, error) {
+func NewPublisher(config configuration.Configuration) (messaging.Publisher, error) {
+	return pulsar.NewPulsarClient(config.Messaging.URL)
+}
+
+func NewSubscriber(config configuration.Configuration) (messaging.Subscriber, error) {
 	return pulsar.NewPulsarClient(config.Messaging.URL)
 }
 
